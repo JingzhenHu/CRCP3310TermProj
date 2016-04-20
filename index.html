@@ -1,0 +1,124 @@
+<!-- <!DOCTYPE html>
+<html lang = "en">
+<head>
+	<title>The Awesome Visualzation of Nuclear Electronic Energy</title>
+	<link rel = "stylesheet" href = "main.css">
+	<script src = "main.js"></script>
+	<script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+	<h1 style = "color: red"> The Awesome Visualzation of Nuclear Electronic Energy</h1>
+	<h2>Good and Better in the following</h2>
+	<p> <a href= "http://api.eia.gov/series/?api_key=5A90ED6BF982DD3EF3CFA866AAADB8CB&series_id=TOTAL.NUETBUS.A" title = "Cool!">Awesone</a> website!!<span style = "font-size:2em;">alelelelelelellelellele</span>le</p>
+	<div style="display: inline-block;
+	width: 1280px;
+	height: 743px;
+	background-color: teal;
+	background: url('http://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kavraiskiy_VII_projection_SW.jpg/1280px-Kavraiskiy_VII_projection_SW.jpg');"></div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html> 
+  <head> 
+        <title>The Awesome Visualzation of Nuclear Electronic Energy</title> 
+        <link rel = "stylesheet" href = "main.css">
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+		<style>
+		.tooltip {
+			position: absolute;
+			width: 200px;
+			height: auto;
+			padding: 10px;
+			background-color: white;
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			-webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			-moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+			pointer-events: none;
+			margin: 0;
+			font-family: sans-serif;
+			font-size: 16px;
+			line-height: : 20px;
+		}
+		</style> 
+  </head> 
+    <body> 
+		<p>The Awesome Visualzation of Nuclear Electronic Energy</p>
+		<div style="display: inline-block;
+			width: 1280px;
+			height: 743px;
+			background-color: teal;
+			background: url('http://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Kavraiskiy_VII_projection_SW.jpg/1280px-Kavraiskiy_VII_projection_SW.jpg');">
+        <script>  
+        // Converts from degrees to radians.
+		Math.radians = function(degrees) {
+  			return degrees * Math.PI / 180;
+		};
+		var width = 1280;	
+		var height = 743;
+
+		var svg = d3.select("body")			
+				.select("div")
+				.append("svg")				
+				.attr("width", width)		
+				.attr("height", height);	
+		var littleframe =d3.select("body")
+				  		   .append("div")
+				  	       .attr("class", "tooltip")
+				  	       .style("opacity",0.0);
+		var dataset;
+		d3.csv("/Data/Nuclear.csv", function(data) {	
+			var FACTOR = 234.0;
+			//console.log(data);
+			dataset = data;
+			svg.selectAll("circle")
+		   	   .data(dataset)
+		       .enter()
+		       .append("circle")
+		       .attr("cx",function(d) {
+		   		var xPosition = ((Math.radians(d.Longitude) * 3)/ (2*Math.PI)) * Math.sqrt(Math.PI*Math.PI/3 - Math.radians(d.Latitude)*Math.radians(d.Latitude))*FACTOR;
+		   	   	//console.log(xPosition);
+		   		return xPosition + width/2;
+		   		})
+		       .attr("cy",function(d){
+		   	   		var yPosition = Math.radians(d.Latitude) * (-1) * FACTOR;
+		   	   		//console.log(yPosition);
+					return yPosition + height/2;
+		  		})
+		       .attr("r",function(d){
+		   	   		//console.log(d.Numbers);
+		   			return d.Numbers/2;
+		  		})
+		       //.attr("fill","orange")
+		       .attr("stroke-width", 2)
+		       .attr("stroke", "red")
+		       .on("mouseover",function(d){
+		   		//console.log("Over!!");
+				/*moving in，changing the text via selection.html() */
+				//var xPosition = ((Math.radians(d.Longitude) * 3)/ (2*Math.PI)) * Math.sqrt(Math.PI*Math.PI/3 - Math.radians(d.Latitude)*Math.radians(d.Latitude))*FACTOR;
+				//var yPosition = Math.radians(d.Latitude) * (-1) * FACTOR;
+				//Update the tooltip position and value
+
+				littleframe.style("left", /*xPosition*/ (d3.event.pageX) + "px")
+				 		   .style("top", /*yPosition*/(d3.event.pageY) + "px")
+				 		   .style("opacity", 1.0)//Show the tooltip
+				  		   .html(d.CountryName + "<br /> MW: " + d.MW);
+				})
+				.on("mouseout",function(d){
+					//console.log("Out!!");
+					/* when moving out, make the opacity to be zero*/
+					littleframe.style("opacity",0.0);
+				});
+				for(i = 0; i < data.length; i++) {
+					var API = "https://developer.nrel.gov/api/utility_rates/v3.json?api_key=ROmBND1Izy5WRGbWO1G08GQescpfvxCPLeYQrVlw&lat=" + data[i].Latitude + "&lon=" + data[i].Longitude;
+					console.log(API);
+					d3.json(API,function(json) {
+						console.log(json);
+					});
+				}
+			});
+        </script>
+    </body> 
+</html>
