@@ -112,10 +112,18 @@
 					littleframe.style("opacity",0.0);
 				});
 				for(i = 0; i < data.length; i++) {
-					var API = "https://developer.nrel.gov/api/utility_rates/v3.json?api_key=ROmBND1Izy5WRGbWO1G08GQescpfvxCPLeYQrVlw&lat=" + data[i].Latitude + "&lon=" + data[i].Longitude;
+					var API = "http://api.openweathermap.org/data/2.5/weather?lat=" + data[i].Latitude + "&lon=" + data[i].Longitude +"&appid=2792a17ddf2a135ed54393fde48584a7";
 					console.log(API);
 					d3.json(API,function(json) {
 						console.log(json);
+						console.log(json.main.temp);
+						// svg.selectAll("circle")
+		   	//    			    .data(json)
+		    //                 .enter()
+		    //                 .attr("fill",function(d){
+
+		    //                 	return d.main.temp;
+		    //                 });
 					});
 				}
 			});
