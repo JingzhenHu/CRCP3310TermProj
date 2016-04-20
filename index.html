@@ -60,10 +60,10 @@
 		var height = 743;
 
 		var svg = d3.select("body")			
-				.select("div")
-				.append("svg")				
-				.attr("width", width)		
-				.attr("height", height);	
+				    .select("div")
+				    .append("svg")				
+				    .attr("width", width)		
+					.attr("height", height);	
 		var littleframe =d3.select("body")
 				  		   .append("div")
 				  	       .attr("class", "tooltip")
@@ -115,15 +115,21 @@
 					var API = "http://api.openweathermap.org/data/2.5/weather?lat=" + data[i].Latitude + "&lon=" + data[i].Longitude +"&appid=2792a17ddf2a135ed54393fde48584a7";
 					console.log(API);
 					d3.json(API,function(json) {
-						console.log(json);
-						console.log(json.main.temp);
-						// svg.selectAll("circle")
-		   	//    			    .data(json)
-		    //                 .enter()
-		    //                 .attr("fill",function(d){
-
-		    //                 	return d.main.temp;
-		    //                 });
+						//console.log(json);
+						svg.selectAll("circle")
+		   	   			    .data(json)
+		   	   			    .enter()
+		       				.append("circle")
+		                    .attr("fill",function(d){
+								//console.log(json.main.temp);
+		                    	var fahrenheitTemp = ((d.main.temp)*(9.0/5.0)-459.67);
+		                    	var colorScaler = d3.scale.linear()
+								                    	.domain([0,100])
+		                    							.range([0,255]);
+		                    	var tempColor = colorScaler(d.main.temp);
+		                    	console.log(tempColor);
+		                    	return "rgb(" + tempColor + "," + （tempColor/9.0） + "," + (255-tempColor) +")";
+		                    });
 					});
 				}
 			});
