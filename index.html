@@ -68,6 +68,7 @@
 				  	       .attr("class", "tooltip")
 				  	       .style("opacity",0.0);
 		var dataset;
+		var i;
 		d3.csv("/Data/Nuclear.csv", function(data) {	
 			var FACTOR = 234.0;
 			//console.log(data);
@@ -132,11 +133,13 @@
 		       .attr("stroke-width", 2)
 		       .attr("stroke", "red")
 		       .call(function(d) {
-		       		var API = "http://api.openweathermap.org/data/2.5/weather?lat=" + d[0][0].__data__.Latitude + "&lon=" + d[0][0].__data__.Longitude +"&appid=2792a17ddf2a135ed54393fde48584a7";
-					console.log(API);
+		       	for(i = 0; i < 31; i++) {
+		       		var API = "http://api.openweathermap.org/data/2.5/weather?lat=" + d[0][i].__data__.Latitude + "&lon=" + d[0][i].__data__.Longitude +"&appid=2792a17ddf2a135ed54393fde48584a7";
+					//console.log(API);
+					//console.log(i);
 					d3.json(API, function(json) {
 						//console.log(json);
-						//console.log(jsondata.main.temp);
+						console.log(json.main.temp);
 		                var fahrenheitTemp = ((json.main.temp)*(9.0/5.0)-459.67);
 						//console.log(fahrenheitTemp);
 		                var colorScaler = d3.scale.linear()
@@ -148,14 +151,17 @@
 		                var tempatura = Math.round(tempColor);
 		                var g = Math.round(tempatura/9);
 						var b = Math.round(255-tempatura);
-		                i = "rgb(" + tempatura + "," + g + "," + b +")";
+		                var result = "rgb(" + tempatura + "," + g + "," + b +")";
 		                d.attr("fill",function()
-		                {
+		                {	
 		                	console.log(i);
-		                	return i;
+		                	//i = i + 1;
+		                	console.log(result);
+		                	return result;
 		                })
 		                //console.log(d[0][10]);
 		            });
+				}
 		       })
 		       /*
 		       .attr("fill", function(d) {
