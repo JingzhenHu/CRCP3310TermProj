@@ -1,21 +1,18 @@
-
+@import url(http://fonts.googleapis.com/css?family=Oswald:400,700);
 body{
-
-    /*border-top-style: groove;
-    border-right-style: groove;
-    border-bottom-style: groove;
-    border-left-style: groove;
-    border-color: white; */
-	
 	background-color: black;
-
-}
-
-p{
-	color: white;
+	font-family: 'Oswald', sans-serif;
+	color: rgb(194, 203, 209);
 	text-align: center;
-	font-family: "Ariel Black";
+	font-weight: bold;
 	font-size: 50px;
 
-
 }
+h1 {
+font-family: 'Oswald', sans-serif;
+color: rgb(194, 203, 209);
+border: solid;
+  
+ }
+
+
