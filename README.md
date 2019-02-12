@@ -1,3 +1,3 @@
 # Nuclear Energy and Climate
 
-Tori and Journey
+Jingzhen and Tori
